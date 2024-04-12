@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { signInDto } from './dto/signin.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -33,7 +34,7 @@ export class UsersService {
   }
  async findByEmail(email: string) :Promise<User | undefined>{
   return await this.usersRepository.findOne({ 
-    where: {email},}); 
+    where: {email:email},}); 
  }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User | undefined> {
@@ -59,30 +60,39 @@ export class UsersService {
     return res
   }
 
- async login(signIn:signInDto){
+  async login(signIn: signInDto) {
     const { email, pwd } = signIn;
 
-    // Vérification des informations d'identification
-    const user = await this.findByEmail(email);
+    const user = await this.validateUser(email, pwd);
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }
-    if (user && user.pwd === pwd) {
-      const token = await this.generateJwtToken(user);
-      return { access_token: token };
-    }
-   return "null";
+       const access_token=this.generateJwtToken(user)
+
+      return {  access_token };
+   
   }
-  async validateToken(token: string): Promise<any> {
-    try {
-      const decoded = await this.jwtService.verifyAsync(token);
-      return decoded;
-    } catch (error) {
-      return null; 
-    }
-  }
+  // async validateToken(token: string): Promise<any> {
+  //   try {
+  //     const decoded = await this.jwtService.verifyAsync(token);
+  //     return decoded;
+  //   } catch (error) {
+  //     return null; 
+  //   }
+  // }
   async generateJwtToken(user: User): Promise<string> {
     const payload = { id: user.id, email: user.email };
-    return this.jwtService.signAsync(payload);
+    return this.jwtService.sign(payload);
+  }
+  async validateUser(email: string, pwd: string): Promise<any> {
+    const user = await this.findByEmail(email);
+    if (user) {
+      const isPasswordValid = await bcrypt.compare(pwd, user.pwd);
+      if (isPasswordValid) {
+        return user;
+      }
+      return "password invalid"
+    }
+    return null;
   }
 }

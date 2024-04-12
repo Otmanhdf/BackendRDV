@@ -11,7 +11,7 @@ export class RenduVousService {
   constructor(
     @InjectRepository(RenduVous)
     private renduVousRepository:Repository<RenduVous>,
-    private jwtService:JwtService
+    
 
 ){}
   async create(createRenduVousDto: CreateRenduVousDto) {
@@ -27,11 +27,22 @@ export class RenduVousService {
     return await this.renduVousRepository.findOne({where:{id}});
   }
 
-  update(id: number, updateRenduVousDto: UpdateRenduVousDto) {
-    return `This action updates a #${id} renduVous`;
+  async update(id: number, updateRenduVousDto: UpdateRenduVousDto) {
+    const renduVous=await this.findOne(id);
+    if (!renduVous){
+      return "not found";
+    }
+    const renuVousUpdate=this.updateRenduVous(renduVous,updateRenduVousDto)
+    const res=await this.renduVousRepository.save(renuVousUpdate);
+    return res
   }
 
   async remove(id: number) {
     return await this.renduVousRepository.delete(id);
+  }
+  updateRenduVous(renduVous:CreateRenduVousDto,updateRenduVous:UpdateRenduVousDto){
+    renduVous.date=updateRenduVous.date?? renduVous.date;
+    renduVous.etat=updateRenduVous.etat?? renduVous.etat;
+    return renduVous;
   }
 }

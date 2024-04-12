@@ -1,5 +1,6 @@
 import { IsEmail, IsStrongPassword, MinLength, minLength } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { RenduVous } from 'src/rendu-vous/entities/rendu-vous.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 
 @Entity()
 export class User {
@@ -21,7 +22,8 @@ export class User {
     phone: string;
 
     @Column()
-    @IsStrongPassword()
     pwd: string;
 
+    @OneToOne(()=>RenduVous,renduVous=>renduVous.user)
+    renduVous:RenduVous;
 }
