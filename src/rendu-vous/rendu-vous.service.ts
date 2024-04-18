@@ -4,7 +4,7 @@ import { UpdateRenduVousDto } from './dto/update-rendu-vous.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RenduVous } from './entities/rendu-vous.entity';
 import { Repository } from 'typeorm';
-import { JwtService } from '@nestjs/jwt';
+
 
 @Injectable()
 export class RenduVousService {

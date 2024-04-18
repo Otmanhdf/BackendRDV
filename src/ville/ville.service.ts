@@ -45,4 +45,7 @@ export class VilleService {
     ville.label=updateVille.label?? ville.label;
     return ville;
   }
+  async findByRegion(regionId: number) {
+    return await this.villeRepository.find({ where: { region: { id: regionId } } });
+  }
 }

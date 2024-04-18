@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete ,Query, UnauthorizedException, UseGuards} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete , UseGuards} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { signInDto } from './dto/signin.dto';
 import * as bcrypt from 'bcrypt';
-import { AuthGuard } from '@nestjs/passport';
+import { UserGuard } from './Guards/user.guard';
+
 
 @Controller('users')
 export class UsersController {
@@ -17,25 +18,30 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(UserGuard)
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(":id")
+  @UseGuards(UserGuard)
   findOne(@Param('id') id: number) {
     return this.usersService.findOneById(id);
   }
   @Get("user/:email")
+  @UseGuards(UserGuard)
   findByEmail(@Param('email') email: string) {
     return this.usersService.findByEmail(email);
   }
 
   @Patch(':id')
+  @UseGuards(UserGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @UseGuards(UserGuard)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }

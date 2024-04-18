@@ -10,11 +10,13 @@ import { CentreModule } from './centre/centre.module';
 import { RegionModule } from './region/region.module';
 import { VilleModule } from './ville/ville.module';
 import { CreneauModule } from './creneau/creneau.module';
+import { JwtStrategy } from './users/Guards/jwt.strategy';
+import { UsersService } from './users/users.service';
 
 const jwtConfig:JwtModuleOptions={
   global: true,
-  secretOrPrivateKey:"12",
-  signOptions: { expiresIn: '60s' },
+  secretOrPrivateKey:"test",
+  signOptions: { expiresIn: '1d' },
 }
 
 @Module({
@@ -30,7 +32,7 @@ const jwtConfig:JwtModuleOptions={
       username: 'root',
       password: '',
       database: 'renduVous',
-      entities: [User],
+      entities: [],
       synchronize: false,
       autoLoadEntities: true,
     }),
@@ -41,5 +43,6 @@ const jwtConfig:JwtModuleOptions={
     CreneauModule,],
   controllers: [],
   providers: [],
+  exports:[JwtModule]
 })
 export class AppModule {}

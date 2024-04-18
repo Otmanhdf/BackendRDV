@@ -45,4 +45,7 @@ export class CentreService {
     centre.adress=updatecentre.adress?? centre.adress;
     return centre;
   }
+  async findByVile(villeId: number) {
+    return await this.centreRepository.find({ where: { ville: { id: villeId } } });
+  }
 }

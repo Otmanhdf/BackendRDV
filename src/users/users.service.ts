@@ -17,24 +17,38 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-  const res=await this.usersRepository.save(createUserDto)
-    return res;
+    try {
+      const existingUser = await this.usersRepository.findOne({ where: { email: createUserDto.email } });
+      if (existingUser) {
+        return "user already exists";
+      }
+      
+      const newUser = this.usersRepository.create(createUserDto);
+      const savedUser = await this.usersRepository.save(newUser);
+      return savedUser;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to create user");
+    }
   }
-
+      
  findAll() {
   const users=this.usersRepository.find()
    return users;
   }
 
-  async findOneById(id: number): Promise<User | undefined> {
+  async findOneById(id: number){
     return await this.usersRepository.findOne({ 
       where: {
       id: id,
   },}); 
   }
- async findByEmail(email: string) :Promise<User | undefined>{
-  return await this.usersRepository.findOne({ 
+ async findByEmail(email: string){
+  const user=await this.usersRepository.findOne({ 
     where: {email:email},}); 
+    if(user!=null){
+      return user
+    }else{return null;}
  }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User | undefined> {
@@ -49,6 +63,7 @@ export class UsersService {
     user.email = updateUserDto.email ?? user.email;
     user.phone = updateUserDto.phone ?? user.phone;
     user.pwd = updateUserDto.pwd ?? user.pwd;
+    user.role = updateUserDto.role ?? user.role;
 
     await this.usersRepository.save(user);
 
@@ -64,34 +79,29 @@ export class UsersService {
     const { email, pwd } = signIn;
 
     const user = await this.validateUser(email, pwd);
-    if (!user) {
+    if (user==null) {
       throw new UnauthorizedException('Invalid email or password');
-    }
-       const access_token=this.generateJwtToken(user)
+    }else{
+      const access_token=this.generateJwtToken(user)
 
-      return {  access_token };
+      return access_token;
+    }
+       
    
   }
-  // async validateToken(token: string): Promise<any> {
-  //   try {
-  //     const decoded = await this.jwtService.verifyAsync(token);
-  //     return decoded;
-  //   } catch (error) {
-  //     return null; 
-  //   }
-  // }
   async generateJwtToken(user: User): Promise<string> {
     const payload = { id: user.id, email: user.email };
-    return this.jwtService.sign(payload);
+    const token= this.jwtService.sign(payload, { secret: 'test' });
+    return token;
   }
   async validateUser(email: string, pwd: string): Promise<any> {
     const user = await this.findByEmail(email);
-    if (user) {
+    if (user!=null) {
       const isPasswordValid = await bcrypt.compare(pwd, user.pwd);
       if (isPasswordValid) {
         return user;
       }
-      return "password invalid"
+      return null;
     }
     return null;
   }

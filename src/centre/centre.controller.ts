@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CentreService } from './centre.service';
 import { CreateCentreDto } from './dto/create-centre.dto';
 import { UpdateCentreDto } from './dto/update-centre.dto';
+import { UserGuard } from 'src/users/Guards/user.guard';
 
 @Controller('centre')
+@UseGuards(UserGuard)
 export class CentreController {
   constructor(private readonly centreService: CentreService) {}
 
@@ -30,5 +32,9 @@ export class CentreController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.centreService.remove(+id);
+  }
+  @Get('centres/:villeId')
+  findByRegion(@Param('villeId') villeId: number) {
+    return this.centreService.findByVile(villeId);
   }
 }

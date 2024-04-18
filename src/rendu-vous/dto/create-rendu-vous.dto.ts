@@ -1,10 +1,10 @@
-import { IsDate, IsString } from "class-validator";
+import { IsDateString, IsString } from "class-validator";
 import { etatRenduVous } from "../entities/rendu-vous.entity";
 
 export class CreateRenduVousDto {
-    @IsDate()
+    @IsDateString()
     date:Date
 
     @IsString()
-    etat:etatRenduVous;
+    etat:string;
 }

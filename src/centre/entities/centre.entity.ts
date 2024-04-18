@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 import { Creneau } from "src/creneau/entities/creneau.entity";
 import { RenduVous } from "src/rendu-vous/entities/rendu-vous.entity";
 import { Ville } from "src/ville/entities/ville.entity";
@@ -10,10 +10,12 @@ export class Centre {
     @PrimaryGeneratedColumn()
     id:number;
 
+    @IsNotEmpty()
     @IsString()
     @Column()
     label:string;
-
+    
+    @IsNotEmpty()
     @IsString()
     @Column()
     adress:string;

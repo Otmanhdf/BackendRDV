@@ -1,29 +1,43 @@
-import { IsEmail, IsStrongPassword, MinLength, minLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsStrongPassword, MinLength, isNotEmpty, minLength } from 'class-validator';
 import { RenduVous } from 'src/rendu-vous/entities/rendu-vous.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany } from 'typeorm';
+import { Role } from '../enum/role.enum';
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @IsNotEmpty()
     @Column()
     nom: string;
 
+    @IsNotEmpty()
     @Column()
     prenom: string;
 
-    @Column()
+    @IsNotEmpty()
     @IsEmail()
+    @Column({unique:true})
     email: string;
 
+    @IsNotEmpty()
     @Column()
     @MinLength(10)
     phone: string;
 
+    @IsNotEmpty()
     @Column()
     pwd: string;
 
-    @OneToOne(()=>RenduVous,renduVous=>renduVous.user)
-    renduVous:RenduVous;
+    @Column({
+        type:'enum',
+        enum:Role,
+        default:Role.USER
+    })
+    role:string;
+
+    @OneToMany(()=>RenduVous,renduVous=>renduVous.user)
+    @JoinColumn()
+    renduVous:RenduVous[];
 }
