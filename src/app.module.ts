@@ -10,12 +10,12 @@ import { CentreModule } from './centre/centre.module';
 import { RegionModule } from './region/region.module';
 import { VilleModule } from './ville/ville.module';
 import { CreneauModule } from './creneau/creneau.module';
-import { JwtStrategy } from './users/Guards/jwt.strategy';
-import { UsersService } from './users/users.service';
+import { SECRET_VALUE } from './Variable/info';
+
 
 const jwtConfig:JwtModuleOptions={
   global: true,
-  secretOrPrivateKey:"test",
+  secretOrPrivateKey:SECRET_VALUE,
   signOptions: { expiresIn: '1d' },
 }
 

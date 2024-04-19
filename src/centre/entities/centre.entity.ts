@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { Creneau } from "src/creneau/entities/creneau.entity";
 import { RenduVous } from "src/rendu-vous/entities/rendu-vous.entity";
 import { Ville } from "src/ville/entities/ville.entity";
@@ -16,9 +16,9 @@ export class Centre {
     label:string;
     
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     @Column()
-    adress:string;
+    size:number;
 
     @ManyToOne(()=>Ville,ville=>ville.centres)
     ville:Ville;

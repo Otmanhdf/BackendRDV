@@ -6,6 +6,7 @@ import { Centre } from './entities/centre.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 
+
 @Injectable()
 export class CentreService {
   constructor( 
@@ -42,7 +43,7 @@ export class CentreService {
   }
   updateCnetre(centre:CreateCentreDto,updatecentre:UpdateCentreDto){
     centre.label=updatecentre.label?? centre.label;
-    centre.adress=updatecentre.adress?? centre.adress;
+    centre.size=updatecentre.size?? centre.size;
     return centre;
   }
   async findByVile(villeId: number) {

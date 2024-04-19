@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { signInDto } from './dto/signin.dto';
 import * as bcrypt from 'bcrypt';
-
+import {SECRET_VALUE} from './../Variable/info';
 @Injectable()
 export class UsersService {
   constructor(
@@ -83,15 +83,15 @@ export class UsersService {
       throw new UnauthorizedException('Invalid email or password');
     }else{
       const access_token=this.generateJwtToken(user)
-
       return access_token;
     }
        
    
   }
   async generateJwtToken(user: User): Promise<string> {
-    const payload = { id: user.id, email: user.email };
-    const token= this.jwtService.sign(payload, { secret: 'test' });
+    const payload = { user};
+    const token= this.jwtService.sign(payload, { secret: SECRET_VALUE });
+
     return token;
   }
   async validateUser(email: string, pwd: string): Promise<any> {

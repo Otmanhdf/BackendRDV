@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { signInDto } from './dto/signin.dto';
 import * as bcrypt from 'bcrypt';
 import { UserGuard } from './Guards/user.guard';
+import { User } from './Decorators/User';
 
 
 @Controller('users')
@@ -19,8 +20,9 @@ export class UsersController {
 
   @Get()
   @UseGuards(UserGuard)
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@User() user:any) {
+    if (user.role==='admin')
+      return this.usersService.findAll();
   }
 
   @Get(":id")

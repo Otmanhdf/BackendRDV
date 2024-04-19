@@ -1,9 +1,9 @@
-import { IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class CreateCentreDto {
     @IsString()
     label:string;
     
-    @IsString()
-    adress:string;
+    @IsNumber()
+    size:number
 }

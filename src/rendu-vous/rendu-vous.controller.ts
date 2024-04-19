@@ -4,6 +4,7 @@ import { CreateRenduVousDto } from './dto/create-rendu-vous.dto';
 import { UpdateRenduVousDto } from './dto/update-rendu-vous.dto';
 import { UserGuard } from 'src/users/Guards/user.guard';
 import { Request } from 'express';
+import { User } from 'src/users/Decorators/User';
 
 @Controller('rendu-vous')
 export class RenduVousController {
@@ -11,14 +12,15 @@ export class RenduVousController {
 
   @Post()
   @UseGuards(UserGuard)
-  create(@Body() createRenduVousDto: CreateRenduVousDto,@Req() req:Request) {
+  create(@Body() createRenduVousDto: CreateRenduVousDto) {
     return this.renduVousService.create(createRenduVousDto);
   }
 
   @Get()
   @UseGuards(UserGuard)
-  findAll() {
-    return this.renduVousService.findAll();
+  findAll(@User() user: any) {
+      return this.renduVousService.findAll(user);
+
   }
 
   @Get(':id')

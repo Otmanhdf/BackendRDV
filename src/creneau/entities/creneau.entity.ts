@@ -16,10 +16,6 @@ export class Creneau {
     @Column()
     hourStart:string;
     
-    @IsString()
-    @Column()
-    hourend:string;
-
     @OneToOne(()=>RenduVous, renduVous=>renduVous.creneau)
     renduVous:RenduVous;
 

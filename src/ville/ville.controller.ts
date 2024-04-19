@@ -1,18 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { VilleService } from './ville.service';
-import { CreateVilleDto } from './dto/create-ville.dto';
-import { UpdateVilleDto } from './dto/update-ville.dto';
+
 import { UserGuard } from 'src/users/Guards/user.guard';
 
 @Controller('ville')
 @UseGuards(UserGuard)
 export class VilleController {
   constructor(private readonly villeService: VilleService) {}
-
-  @Post()
-  create(@Body() createVilleDto: CreateVilleDto) {
-    return this.villeService.create(createVilleDto);
-  }
 
   @Get()
   findAll() {
@@ -22,11 +16,6 @@ export class VilleController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.villeService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVilleDto: UpdateVilleDto) {
-    return this.villeService.update(+id, updateVilleDto);
   }
 
   @Delete(':id')
