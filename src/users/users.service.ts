@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,9 +32,11 @@ export class UsersService {
     }
   }
       
- findAll() {
-  const users=this.usersRepository.find()
-   return users;
+ findAll(user:any) {
+  if (user.role==='admin')
+    return this.usersRepository.find()
+  if (user.role==='user')
+    return user;
   }
 
   async findOneById(id: number){
@@ -80,7 +82,7 @@ export class UsersService {
 
     const user = await this.validateUser(email, pwd);
     if (user==null) {
-      throw new UnauthorizedException('Invalid email or password');
+      throw new HttpException('Invalid email or password', HttpStatus.BAD_REQUEST);
     }else{
       const access_token=this.generateJwtToken(user)
       return access_token;

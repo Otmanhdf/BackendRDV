@@ -22,8 +22,11 @@ export class RenduVousService {
   async findAll(user:any) {
     if (user.role==='admin')
       return await this.renduVousRepository.find()
-    if (user.role==='user')
-      return await this.renduVousRepository.find({where:{ user:user}})
+    if (user.role==='user'){
+     const rendez= await this.renduVousRepository.find({where:{ user:user}})
+     return{rendez,user}
+
+    }
   }
 
   async findOne(id: number) {

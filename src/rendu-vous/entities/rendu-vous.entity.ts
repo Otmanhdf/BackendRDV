@@ -32,6 +32,7 @@ export class RenduVous {
     @JoinColumn()
     user:User;
 
-    @OneToOne(()=>Creneau,creneau=>creneau.renduVous)
+    @ManyToOne(()=>Creneau,creneau=>creneau.renduVous)
+    @JoinColumn()
     creneau:Creneau;
 }

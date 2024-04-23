@@ -23,5 +23,25 @@ export class RegionService {
   async remove(id: number) {
     return await this.regionRepository.delete(id);
   }
-  
+  async insertRegions(): Promise<void> {
+    const regionsData = [
+      'Tanger-Tetouan-Al Hoceima',
+      'Oriental',
+      'Fès-Meknès',
+      'Rabat-Salé-Kénitra',
+      'Béni Mellal-Khénifra',
+      'Casablanca-Settat',
+      'Marrakech-Safi',
+      'Drâa-Tafilalet',
+      'Souss-Massa',
+      'Guelmim-Oued Noun',
+      'Laayoune-Sakia El Hamra',
+      'Eddakhla-Oued Eddahab',
+    ];
+
+    for (const label of regionsData) {
+      const region = this.regionRepository.create({ label });
+      await this.regionRepository.save(region);
+    }
+  }
 }

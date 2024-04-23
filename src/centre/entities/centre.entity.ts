@@ -26,6 +26,6 @@ export class Centre {
     @OneToMany(()=>RenduVous,renduVous=>renduVous.centre)
     renduVous:RenduVous[];
 
-    @OneToMany(() => Creneau, creneau => creneau.centre)
-    creneaux: Creneau[];
+    @ManyToOne(() => Creneau, creneau => creneau.centre)
+    creneau: Creneau;
 }

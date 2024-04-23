@@ -23,7 +23,10 @@ export class CreneauController {
   findOne(@Param('id') id: string) {
     return this.creneauService.findOne(+id);
   }
-
+  @Get('jour/:jour')
+  findByJour(@Param('jour') jour: string) {
+    return this.creneauService.findByJour(jour);
+  }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.creneauService.remove(+id);

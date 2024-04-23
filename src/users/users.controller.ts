@@ -21,8 +21,7 @@ export class UsersController {
   @Get()
   @UseGuards(UserGuard)
   findAll(@User() user:any) {
-    if (user.role==='admin')
-      return this.usersService.findAll();
+      return this.usersService.findAll(user);
   }
 
   @Get(":id")
