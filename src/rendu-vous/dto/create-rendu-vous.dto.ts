@@ -1,5 +1,4 @@
-import { IsDateString, IsString } from "class-validator";
-import { etatRenduVous } from "../entities/rendu-vous.entity";
+import { IsDateString, IsNumber, IsString } from "class-validator";
 
 export class CreateRenduVousDto {
     @IsDateString()
@@ -7,4 +6,5 @@ export class CreateRenduVousDto {
 
     @IsString()
     etat:string;
+
 }

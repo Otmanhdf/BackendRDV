@@ -28,11 +28,15 @@ export class RenduVous {
     @ManyToOne(()=>Centre, centre=>centre.renduVous)
     centre:Centre;
 
-    @ManyToOne(()=>User,user=>user.renduVous)
-    @JoinColumn()
-    user:User;
 
     @ManyToOne(()=>Creneau,creneau=>creneau.renduVous)
     @JoinColumn()
     creneau:Creneau;
+
+
+    @ManyToOne(()=>User,user=>user.renduVous)
+    @JoinColumn()
+    user:User;
+
+   
 }

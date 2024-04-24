@@ -34,7 +34,7 @@ export class RenduVousService {
   }
 
   async update(id: number, updateRenduVousDto: UpdateRenduVousDto) {
-    const renduVous=await this.findOne(id);
+    const renduVous=await this.renduVousRepository.findOne({where:{id}});
     if (!renduVous){
       return "not found";
     }

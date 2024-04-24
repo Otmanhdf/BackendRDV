@@ -1,7 +1,7 @@
-import { IsDate, IsString } from "class-validator";
+import {  IsString } from "class-validator";
 import { Centre } from "src/centre/entities/centre.entity";
 import { RenduVous } from "src/rendu-vous/entities/rendu-vous.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany,  PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Creneau {
@@ -20,11 +20,11 @@ export class Creneau {
     @Column()
     jour:string;
     
-    @OneToMany(()=>RenduVous, renduVous=>renduVous.creneau)
-    @JoinColumn()
+    
+    @OneToMany(()=>RenduVous,renduVous=>renduVous.creneau)
     renduVous:RenduVous[];
 
-    @OneToMany(()=>Centre, centre=>centre.creneau)
+    @ManyToMany(()=>Centre, centre=>centre.creneau)
     centre:Centre[];
     
     }

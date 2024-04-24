@@ -53,7 +53,7 @@ export class UsersService {
     }else{return null;}
  }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User | undefined> {
+  async update(id: number, updateUserDto: UpdateUserDto){
     
     const user = await this.findOneById(id);
 
@@ -68,8 +68,9 @@ export class UsersService {
     user.role = updateUserDto.role ?? user.role;
 
     await this.usersRepository.save(user);
-
-    return user; 
+    const access_token=this.generateJwtToken(user)
+    return access_token;
+    
   }
 
   async remove(id: number) {

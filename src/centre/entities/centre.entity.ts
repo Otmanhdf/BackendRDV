@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { Creneau } from "src/creneau/entities/creneau.entity";
 import { RenduVous } from "src/rendu-vous/entities/rendu-vous.entity";
 import { Ville } from "src/ville/entities/ville.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Centre {
@@ -26,6 +26,7 @@ export class Centre {
     @OneToMany(()=>RenduVous,renduVous=>renduVous.centre)
     renduVous:RenduVous[];
 
-    @ManyToOne(() => Creneau, creneau => creneau.centre)
-    creneau: Creneau;
+    @ManyToMany(() => Creneau, creneau => creneau.centre)
+    @JoinTable()
+    creneau: Creneau[];
 }

@@ -15,8 +15,8 @@ import { SECRET_VALUE } from './Variable/info';
 
 const jwtConfig:JwtModuleOptions={
   global: true,
-  secretOrPrivateKey:SECRET_VALUE,
-  signOptions: { expiresIn: '1d' },
+  secret:SECRET_VALUE,
+  signOptions: { expiresIn: '60s' },
 }
 
 @Module({
@@ -40,7 +40,8 @@ const jwtConfig:JwtModuleOptions={
     CentreModule,
     RegionModule,
     VilleModule,
-    CreneauModule,],
+    CreneauModule,
+  ],
   controllers: [],
   providers: [],
   exports:[JwtModule]
