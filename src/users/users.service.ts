@@ -32,7 +32,7 @@ export class UsersService {
     }
   }
       
- findAll(user:any) {
+ async findAll(user:any) {
   if (user.role==='admin')
     return this.usersRepository.find()
   if (user.role==='user')
@@ -55,7 +55,10 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto){
     
-    const user = await this.findOneById(id);
+    const user = await this.usersRepository.findOne({ 
+      where: {
+      id: id,
+  },}); 
 
     if (!user) {
       return undefined;

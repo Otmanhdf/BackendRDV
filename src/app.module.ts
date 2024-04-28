@@ -31,7 +31,7 @@ const jwtConfig:JwtModuleOptions={
       port: 3306,
       username: 'root',
       password: '',
-      database: 'rendez_vous',
+      database: 'rdv',
       entities: [],
       synchronize: false,
       autoLoadEntities: true,

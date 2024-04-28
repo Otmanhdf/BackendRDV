@@ -23,6 +23,7 @@ export class RenduVousController {
 
   }
 
+  
   @Get(':id')
   @UseGuards(UserGuard)
   findOne(@Param('id') id: string) {
@@ -39,5 +40,11 @@ export class RenduVousController {
   @UseGuards(UserGuard)
   remove(@Param('id') id: string) {
     return this.renduVousService.remove(+id);
+  }
+
+  @Delete('user/:userId')
+  @UseGuards(UserGuard)
+  removeByUser(@Param('userId') userId: string) {
+    return this.renduVousService.removeByUser(+userId);
   }
 }
